@@ -1,64 +1,106 @@
 📄 PDF-RAG-Chatbot
 
-A simple AI tool that answers questions from any PDF using semantic search and text generation.
+An intelligent PDF Question-Answering system built using a Retrieval-Augmented Generation (RAG) pipeline.
+The application allows users to upload any PDF, ask questions, and receive clear, concise, human-friendly answers based entirely on the document content.
 
-🧰 Tech Stack (Super Short Summary)
-Frontend
+🚀 Tech Stack
+1. Streamlit (Frontend & App Framework)
 
-Streamlit → UI, PDF upload, question input, answer display
+Builds the web interface
 
-PDF Processing
+Handles PDF upload, question input, sidebar controls
 
-PyPDF2 → Extracts text from PDF pages
+Displays the final generated answers
 
-Embeddings
+2. PyPDF2 (PDF Text Extraction)
 
-SentenceTransformer (MiniLM) → Converts PDF chunks + user questions into numerical vectors
+Reads PDF files page-by-page
 
-Semantic Search
+Extracts raw text while removing line breaks, hyphens, and formatting noise
 
-FAISS → Finds the most relevant PDF chunks for the question
+3. SentenceTransformer – MiniLM (Embeddings)
 
-Text Generation
+Model: all-MiniLM-L6-v2
 
-FLAN-T5-Base → Generates answers in simple human-friendly language
+Converts text chunks and user questions into vector embeddings
 
-Handles detailed questions
+Enables semantic understanding of the document
 
-Handles short answers
+4. FAISS (Semantic Vector Search)
 
-Handles MCQs
+High-performance similarity search library
 
-Cleaning
+Finds the most relevant chunks from the PDF based on the user’s question
 
-Regex (re) → Removes repeated words, fixes noisy PDF text
+Ensures fast retrieval even for large documents
 
-Performance
+5. FLAN-T5-Base (Answer Generation)
 
-Streamlit caching → Speeds up model loading and FAISS indexing
+Lightweight text-generation model from HuggingFace
 
-⚙️ How It Works (Quick)
+Produces clear and simple explanations using the retrieved PDF text
 
-Upload PDF
+Supports:
 
-Extract and clean text
+Conceptual answers
 
-Split into chunks
+Short fact-based answers
 
-Convert chunks to embeddings
+MCQ option selection
 
-Store in FAISS index
+6. Regex / Text Cleaning
 
-Convert question to embedding
+Removes noisy patterns created by PDF formatting
 
-Retrieve top-K relevant chunks
+Fixes repeated words and broken sentences
 
-Send context + question to FLAN-T5
+Ensures clean and readable output
 
-Generate clean answer
+7. Streamlit Caching (@st.cache_resource)
 
-Show answer with page numbers
+Caches embedding models, FAISS index, and generator
 
-▶️ Run
+Makes the app smooth and responsive during repeated queries
+
+🧠 How the System Works
+
+User uploads one or more PDF files
+
+Raw text is extracted and cleaned
+
+Text is split into overlapping chunks
+
+Each chunk is converted to a vector embedding (MiniLM)
+
+FAISS stores all chunk embeddings
+
+User question → converted to embedding
+
+FAISS retrieves the top-K most relevant chunks
+
+A structured prompt is generated
+
+FLAN-T5 generates a clean, beginner-friendly answer
+
+Output is cleaned and displayed with file & page references
+
+▶️ Run the App
 pip install -r requirements.txt
 streamlit run app.py
+
+📘 Use Cases
+
+Understanding ML/AI lecture notes
+
+Summarizing technical PDFs
+
+Extracting answers from exam PDFs
+
+Explaining concepts from research papers
+
+MCQ identification and problem-solving
+
+👨‍💻 Author
+
+Abishek Sharma
+GitHub: abishek-33
